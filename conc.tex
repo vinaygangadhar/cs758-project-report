@@ -1,25 +1,19 @@
-\section{Summary} \label{sec:summary}
-This dissertation will address the challenges of rising dark silicon 
-and the end of Dennard scaling through researching methods for understanding,
-developing, and employing accelerators.
-To enable this, completed work has developed the transformable 
-dependence graph (TDG), which can model acceleration at a higher 
-level of abstraction while still capturing important
-interactions with the general purpose processor and the applications.
-The research will use this abstraction in three areas:  First,
-to decipher accelerators'  fundamental limitations and opportunities, 
-which could help accelerator designers focus their efforts.  
-Second, to enable accelerator design practices which are fast and explore
-a broad design space.  And third, to enable the study of practical 
-techniques for scheduling multi-accelerator systems.  
+\section{Conclusion and Future Work} \label{sec:conc}
+Proximate is a programmable accelerator that targets high 
+efficiency and programmability. Proximate is a compute engine 
+for both regular and irregular workloads.
+Proximate handles regular workloads with softbrain, 
+a reconfigurable computation fabric operating on 
+data streams recursively. Proximate handles irregular workloads with many CPU cores with data locality. 
 
-The three pieces of prosed work are far from independent.  Part of the effectiveness
-of the TDG-based design strategy comes from the ability to perform limit studies.  By
-enabling multi-accelerator scheduling on applications, we may open new limits
-and opportunities for acceleration.  More concretely, the NLA design we are proposing
-can be viewed as breaking the limitations of the BERET architecture, and the
-architectures we develop using our design strategy will help to make
-multi-acceleration useful.  Taking the components of the proposed work together,
-the goal of the proposed research is to enable the development of
-accelerator systems which can provide order-of-magnitude better performance and
-energy-efficiency.
+Proximate is programmable with a task-based programming API. 
+The programmer manages data sharding to achieve task and data locality for performance and scalability. 
+The simple queueing model supports more concurrency with locality 
+as each worker thread will only execute tasks in their own queue. 
+Preliminary results shows that Proximate outperforms current 
+multiprocessor programming paradigms by a factor of 10x for regular 
+workloads and a factor of 2x for irregular workloads. Although
+multi-threaded SoftBrain may cause new issues such as synchronization, 
+schedule, and saturated memory bandwidth, it could uncover new bounds of performance. We leave multithreaded SoftBrain to future works. 
+
+

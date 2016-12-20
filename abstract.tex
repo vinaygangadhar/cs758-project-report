@@ -3,35 +3,37 @@
 The slowing of Moore’s law and Dennard scaling is limiting the performance 
 improvements of single core processors. 
 Increasing clock frequency any farther will lead to 
-high leakage current and infeasible power consumption. Further, 
-these cores are extra-ordinarily inefficeint optimzied only for single thread
-arbitrary programs. Over the past decade, focus has been shifted to multicore processors 
+high leakage current and infeasible power consumption.
+Over the past decade, focus has been shifted to multicore processors 
 to increase throughput by having multiple cores  to target
 different types of parallelism - instructoion (ILP), data (DLP) and  thread (TLP).
 However, even the multi-core processors are not scalable for parallelization beyond a point 
-due to Amdhal's law. To address the challenges of rising dark silicon and the end
-of Dennard scaling, architects have turned to heteregenous architectures 
+due to Amdahl's law. To address these challenges of rising dark silicon and the end
+of Dennard scaling, in recent years architects have turned to heteregenous architectures 
 with special purpose domain specific accelerators (DSAs), for higher performance and energy effieincy.
 While providing huge benefits, DSAs are prone to obsoletion due to domain volatility,
 have recurring design and verification costs, and have large
 area footprints when multiple DSAs are required in a single
 device to reap out the benefits of different applcaition acceleration.
-To attack such problems of DSAs, while still having  
+To attack such problems of DSAs and multi-core processors, 
+while still retaining programmbility of general prupose processors and 
+efficiency of DSAs, there is an on-going research in Vertical Research Group, University of Wisconsin-Madison
+aiming to build a general purpose multi-tile programmable accelerator called Proximate. 
+
+This project, focuses on exploring the parallel programming design space
+of Proximate, a multi-tile programmable hardware accelerator.
+The aim is to investiagate the programming interface  of Proximate
 
 
-Because of the benefits of generality, this work explores
-how far a programmable architecture can be pushed,
-and whether it can come close to the performance, energy,
-and area efficiency of a DSA-based approach.
-Our insight is that DSAs employ common specialization
-principles for concurrency, computation, communication,
-data-reuse and coordination, and that these same principles
-can be exploited in a programmable architecture using
-a composition of known microarchitectural mechanisms.
-Specifically, we propose and study an architecture called
-LSSD, which is composed of many low-power and tiny
-cores, each having a configurable spatial architecture,
-s
+
+the multi-tile architecturescalability and speedup of such accelerators
+compared to a traditional server class multi-core processors for parallel programs.
+Proximate is aimed at targeting
+both regular and irregular class of workloads, and our project tries to do a 
+quantittaive and qualitaitve comaprative study of scalbility of such parallel programs.
+We compare the parallel implementation of different classes of wrokalods (pthread, OpenMP) run on 
+a 64 core Xeon-Phi
+to the Proximate programs written in its own programming model. 
 
 
 
