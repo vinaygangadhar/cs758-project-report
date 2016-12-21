@@ -42,7 +42,7 @@ summation of the product between the input neurons and synapses.
 
 Figure~\ref{fig:classifier-omp} shows the OpenMP implementation of 
 classifier. The OpenMP implementation of classifier is using a 
-"#pragma omp parallel for" on the outer loop. 
+"\#pragma omp parallel"on the outer loop. 
 
 
 \begin{figure}
@@ -71,10 +71,12 @@ workload among pthreads.
 \end{figure}
 
 Figure~\ref{fig:classifier-prx_inorder_q} shows the proixmate implementation 
-with inorder cores and queuing model of classifier. The proximate queueing implementation of classifier shards the 
+with inorder cores and queuing model of classifier. The proximate queueing 
+implementation of classifier shards the 
 workload to different vaults. Calling create context 
 will spawn threads to monitor work queues. Then, load the kernel so that each thread
-know which kernel to execute. Next, enqueue the workloads and wait for them to finish. 
+know which kernel to execute upon receiving their thread arguments. 
+Next, enqueue the workloads and wait for them to finish. 
 Finally, gather the results back into a single array. 
 
 
@@ -89,13 +91,7 @@ Finally, gather the results back into a single array.
 \end{figure}
 
 Figure~\ref{fig:classifier-prx_sb_only} shows the proixmate implementation 
-with softbrain only of classifier. Classifier can be parallelized 
-using proximate with queueing by first sharding the workload. Calling create context 
-will spawn threads to monitor work queues. Then, load the kernel so that each thread
-know which kernel to execute. Next, enqueue the workloads and wait for them to finish. 
-Finally, gather the results back into a single array. 
-shows speedups relative to a single 
-thread of image processing convolution engine applications using OpenMP on Xeon 
-Phi. Note that DoG omp outperforms pthreads, probably because of dynamic 
-scheduling. Therefore, comparing proximate to both pthreads and OpenMP is 
-important for performance evaluation. 
+with softbrain only of classifier. The softbrain implementation first configures the
+hardware to handle classifier. Then, pass inputs and synapses into softbrain. 
+Loop through the softbrain fabric to do multiple iterations of the computation, one for each output.
+Finally, wait for the softbrain computational fabric to finish. 

@@ -1,0 +1,20 @@
+\section{Challenges} \label{sec:chal}
+The challenges we faced is implementing a queueing model on zsim. 
+The queueing model should mimic the Swarm style execution model 
+to schedule and execute multiple irregular workloads concurrently. 
+The challenge was debugging and getting to working in a short amount of time. 
+
+Another challenge we faced is choosing the right base line for all 
+experiments. Small workloads results in slowdown for pthreads and 
+OpenMP while large workloads requires unaffordably slow runtimes on simulators. 
+Furthermore, there were differences between real hardware (godel) and zsim, 
+each of which shows peak speedup at different kernel size or different number of threads. 
+Therefore, we had to run preliminary results to get a estimate of which workload 
+configurations works well on which parallel programming paradigms.
+
+Yet another challenge that we faced is the large design space of 
+programming paradigms for a large set of workload. The programming 
+paradigms includes sequential, OpenMP, pthreads, proximate_inorder, 
+proximate_inorder_with_queueing, proximate_softbrain_only. The workload suites include
+neural networks DianNao, image processing convolution engine, and 
+irregular graph workloads, each of which has multiple benchmarks. 
