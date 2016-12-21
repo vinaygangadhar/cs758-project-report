@@ -1,8 +1,10 @@
-\section{Appendix} \label{sec:appendix}
+\section{Appendix}\label{sec:appendix}
 
-\begin{figure}
+This section acts as an appendix and explain an example Classifier program in Proximate space.  
+
+\begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\linewidth]{cs758-figs/classifier-diagram.png}
+    \includegraphics[width=0.3\linewidth]{cs758-figs/classifier-diagram.png}
   \end{center}
 \vspace{-0.2in}
   \caption{Classifier workload diagram}
@@ -17,10 +19,10 @@ Classifier requires multiplying the input neurons (a vector) by synapses
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=\linewidth]{cs758-figs/classifier-cpu.png}
+    \includegraphics[width=0.5\linewidth]{cs758-figs/classifier-cpu.png}
   \end{center}
 \vspace{-0.2in}
-  \caption{Classifier implementation using sequential cpu}
+  \caption{Classifier implementation using sequential CPU}
   \label{fig:classifier-cpu}
 \vspace{-0.05in}
 \end{figure}
@@ -30,9 +32,9 @@ classifier. Classifier can be done with a nested for loop to take the
 summation of the product between the input neurons and synapses.
 
 
-\begin{figure}
+\begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\linewidth]{cs758-figs/classifier-omp.png}
+    \includegraphics[width=0.5\linewidth]{cs758-figs/classifier-omp.png}
   \end{center}
 \vspace{-0.2in}
   \caption{Classifier implementation using OpenMP}
@@ -42,18 +44,20 @@ summation of the product between the input neurons and synapses.
 
 Figure~\ref{fig:classifier-omp} shows the OpenMP implementation of 
 classifier. The OpenMP implementation of classifier is using a 
-"\#pragma omp parallel"on the outer loop. 
+\emph{\#pragma omp parallel} on the outer loop. 
 
 
-\begin{figure}
+\begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\linewidth]{cs758-figs/classifier-pthread.png}
+    \includegraphics[width=0.5\linewidth]{cs758-figs/classifier-pthread.png}
   \end{center}
 \vspace{-0.2in}
   \caption{Classifier implementation using pthreads}
   \label{fig:classifier-pthread}
 \vspace{-0.05in}
 \end{figure}
+
+\paragraph{}
 
 Figure~\ref{fig:classifier-pthread} shows the pthread implementation of 
 classifier. The pthreads implementation of classifier shards the 
@@ -62,7 +66,7 @@ workload among pthreads.
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=\linewidth]{cs758-figs/classifier-prx_inorder_q.png}
+    \includegraphics[width=0.5\linewidth]{cs758-figs/classifier-prx_inorder_q.png}
   \end{center}
 \vspace{-0.2in}
   \caption{Classifier implementation using proximate with inorder cores and queuing model}
@@ -70,8 +74,8 @@ workload among pthreads.
 \vspace{-0.05in}
 \end{figure}
 
-Figure~\ref{fig:classifier-prx_inorder_q} shows the proixmate implementation 
-with inorder cores and queuing model of classifier. The proximate queueing 
+Figure~\ref{fig:classifier-prx_inorder_q} shows the proximate implementation 
+with inorder cores and queuing model of classifier. The proximate queuing 
 implementation of classifier shards the 
 workload to different vaults. Calling create context 
 will spawn threads to monitor work queues. Then, load the kernel so that each thread
@@ -90,7 +94,7 @@ Finally, gather the results back into a single array.
 \vspace{-0.05in}
 \end{figure}
 
-Figure~\ref{fig:classifier-prx_sb_only} shows the proixmate implementation 
+Figure~\ref{fig:classifier-prx_sb_only} shows the proximate implementation 
 with softbrain only of classifier. The softbrain implementation first configures the
 hardware to handle classifier. Then, pass inputs and synapses into softbrain. 
 Loop through the softbrain fabric to do multiple iterations of the computation, one for each output.

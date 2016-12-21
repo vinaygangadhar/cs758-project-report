@@ -4,38 +4,32 @@ The slowing of Moore’s law and Dennard scaling is limiting the performance
 improvements of single core processors. 
 Increasing clock frequency any farther will lead to 
 high leakage current and infeasible power consumption.
-Over the past decade, focus has been shifted to multicore processors 
+Over the past decade, focus has been shifted to multi-core processors 
 to increase throughput by having multiple cores  to target
-different types of parallelism - instructoion (ILP), data (DLP) and  thread (TLP).
+different types of parallelism - instruction (ILP), data (DLP) and  thread (TLP).
 However, even the multi-core processors are not scalable for parallelization beyond a point 
 due to Amdahl's law. To address these challenges of rising dark silicon and the end
-of Dennard scaling, in recent years architects have turned to heteregenous architectures 
-with special purpose domain specific accelerators (DSAs), for higher performance and energy effieincy.
+of Dennard scaling, in recent years architects have turned to heterogeneous architectures 
+with special purpose domain specific accelerators (DSAs), for higher performance and energy efficiency.
 While providing huge benefits, DSAs are prone to obsoletion due to domain volatility,
 have recurring design and verification costs, and have large
 area footprints when multiple DSAs are required in a single
-device to reap out the benefits of different applcaition acceleration.
+device to reap out the benefits of different application acceleration.
 To attack such problems of DSAs and multi-core processors, 
-while still retaining programmbility of general prupose processors and 
+while still retaining programmability of general purpose processors and 
 efficiency of DSAs, there is an on-going research in Vertical Research Group, University of Wisconsin-Madison
 aiming to build a general purpose multi-tile programmable accelerator called Proximate. 
 
-This project, focuses on exploring the parallel programming design space
+This project focuses on exploring the parallel programming design space
 of Proximate, a multi-tile programmable hardware accelerator.
-The aim is to investiagate the programming interface  of Proximate
-
-
-
-the multi-tile architecturescalability and speedup of such accelerators
+The aim is to investigate the programming interface  of Proximate, the parallel
+hardware improvements and in general explore the parallel programs run on proximate.
+We have tried to explore a new type of the multi-tile programmable architecture,
+its scalability and speedup of such accelerator architecture 
 compared to a traditional server class multi-core processors for parallel programs.
-Proximate is aimed at targeting
-both regular and irregular class of workloads, and our project tries to do a 
-quantittaive and qualitaitve comaprative study of scalbility of such parallel programs.
-We compare the parallel implementation of different classes of wrokalods (pthread, OpenMP) run on 
-a 64 core Xeon-Phi
-to the Proximate programs written in its own programming model. 
-
-
+In summary, we explored different programming design points in the project and proximate is able to achieve speedups of
+50-100x over a traditional server class multi-core processor. We try to analyze this trend over the coarse of this
+document by explaining the architecture, programming model and the performance results of proximate. 
 
 \end{abstract}
 

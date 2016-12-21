@@ -1,18 +1,37 @@
-\section{Evaluatuion and Results} \label{sec:eval}
+\section{Evaluation and Results} \label{sec:eval}
+Before explaining the results and analyzing them , 
+we first show the workloads we could post successfully to Proximate 
+and other workloads not able to port to proximate are mainly because of
+bugs in the proximate queuing model. 
 
-\begin{figure}
-  \begin{center}
-    \includegraphics[width=\linewidth]{cs758-figs/workload-progress.png}
-  \end{center}
-\vspace{-0.2in}
-  \caption{Workload progress with respect to their design space. Green means completed and red means future works. Irregular workloads are not supported on softbrain, and is thus colored yellow.}
-  \label{fig:workload-progress}
-\vspace{-0.05in}
-\end{figure}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Workload Suite}                                                                       & \textbf{Benchmark} & \textbf{CPU} & \textbf{Pthread} & \textbf{OpenMP} & \textbf{prx\_inorder} & \textbf{prx\_inorder\_q} & \textbf{Softbrain}                                                         \\ \hline
+\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Deep Neural \\ Regular Workloads\end{tabular}}     & Classifier         & yes          & yes              & yes             & yes                   & yes                      & yes                                                                        \\ \cline{2-8} 
+                                                                                              & Convolution        & yes          & yes              & yes             & yes                   & no                       & yes                                                                        \\ \cline{2-8} 
+                                                                                              & Pooling            & yes          & yes              & yes             & yes                   & no                       & yes                                                                        \\ \hline
+\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Image Processing\\ Regular Workloads\end{tabular}} & ime-sad            & yes          & yes              & yes             & yes                   & no                       & yes                                                                        \\ \cline{2-8} 
+                                                                                              & sift-blur          & yes          & yes              & yes             & yes                   & no                       & yes                                                                        \\ \cline{2-8} 
+                                                                                              & sift-dog           & yes          & yes              & yes             & yes                   & no                       & yes                                                                        \\ \hline
+\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Graph and Irregular \\ Workloads\end{tabular}}     & histogram          & yes          & yes              & yes             & yes                   & yes                       & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Not\\ supported\end{tabular}} \\ \cline{2-7}
+                                                                                              & bfs                & yes          & no               & no              & no                    & yes                       &                                                                            \\ \cline{2-7}
+                                                                                              & sssp               & yes          & no               & no              & no                    & yes                      &                                                                            \\ \hline
+\end{tabular}
 
-Figure~\ref{fig:workload-progress} shows the workload progress state for each, and 
-show what has been successfuly simulated w.r.t their design space. 
+\caption{Parallel Workloads Implementation Progress}
+\label{tab:work-prg}
+\end{table}
 
+
+Table~\ref{tab:work-prg} shows the workload progress state for each, and 
+show what has been successfully simulated w.r.t their design space. 
+
+\subsection{Scalability Analysis}
+
+This section first explores  the scalability of each workload
+w.r.t pthread and OpenMP implementation on 64-core Xeon-phi machine. 
 
 \begin{figure}
   \begin{center}
@@ -25,16 +44,15 @@ show what has been successfuly simulated w.r.t their design space.
 \end{figure}
 
 Figure~\ref{fig:scalability-dnn-pthread} shows speedups relative to a single 
-thread of neural network applications using pthreads on Xeon Phi (godel). 
+thread of neural network applications using pthreads on Xeon Phi. 
 Classifier (red) exhibits linear speedups up to 32 threads from sharding the 
 workload evenly. There is slowdowns after 32 threads due to  shared cache 
-capacity, and then slowdown afterwards. Pooling (green) demonstrated poor 
+capacity, and then slowdown after-wards. Pooling (green) demonstrated poor 
 scalability because it aggregates information among a set of neighboring 
 inputs, which causes more cache conflicts as the number of threads increases. 
 Convolution (blue) is a filtering application, which scales linearly for medium 
 sized kernels. However, larger kernels will reach cache capacity bottlenecks and 
 demonstrate slowdowns after a certain point. 
-
 
 \begin{figure}
   \begin{center}
@@ -46,10 +64,11 @@ demonstrate slowdowns after a certain point.
 \vspace{-0.05in}
 \end{figure}
 
+\paragraph{}
 Figure~\ref{fig:scalability-dnn-omp} shows speedups relative to a single thread 
 of neural network applications using OpenMP on Xeon Phi. In general, pthreads 
 requires the programmer to do more work and partition data evenly among threads. 
-On the other hand, OpenMP is easier to program simply by adding a pragma omp 
+On the other hand, OpenMP is easier to program simply by adding a pragma \emph{omp} 
 parallel. Therefore, pthreads usually requires more work to get better speedups 
 and OpenMP requires almost no work to get decent speedups. 
 
@@ -68,14 +87,14 @@ Figure~\ref{fig:scalability-convEngine-pthread} shows speedups relative to a
 single thread of image processing convolution engine applications using pthreads 
 on Xeon Phi. DoG (red) exhibits linear speedups up to 4 threads from sharding 
 the workload evenly. There is sublinear speedups up to 16 threads, and slowdowns 
-afterwards because of false sharing as each thread is trying to write to the DoG 
+after wards because of false sharing as each thread is trying to write to the DoG 
 pyramid/image. SAD (blue) shows sublinear speedups, and peaks at different 
 points based on kernel size because larger kernels allows more parallelism. Blur 
 (green) mixes neighboring pixels with each other, so increasing the number of 
 threads on small kernels are quick to cause cache conflicts and slowdowns. 
 
 
-\begin{figure}
+\begin{figure}[h]
   \begin{center}
     \includegraphics[width=\linewidth]{cs758-figs/scalability-convEngine-omp.png}
   \end{center}
@@ -87,10 +106,11 @@ threads on small kernels are quick to cause cache conflicts and slowdowns.
 
 Figure~\ref{fig:scalability-convEngine-omp} shows speedups relative to a single 
 thread of image processing convolution engine applications using OpenMP on Xeon 
-Phi. Note that DoG omp outperforms pthreads, probably because of dynamic 
+Phi. Note that DoG OpenMP outperforms pthreads, probably because of dynamic 
 scheduling. Therefore, comparing proximate to both pthreads and OpenMP is 
 important for performance evaluation. 
 
+\subsection{Proximate Comparison Analysis}
 
 \begin{figure}
   \begin{center}
@@ -104,7 +124,7 @@ important for performance evaluation.
 
 
 Figure~\ref{fig:speedup-classifier} shows speedup analysis of proximate for 
-classifier. First we plotted pthreads (red) and omp (green) as baseline speedup 
+classifier. First we plotted pthreads (red) and OpenMP (green) as baseline speedup 
 results on CPU using Xeon Phi. Next, we ran the workload on proximate without 
 queuing model, and its’ similarity to pthreads is used to validate the 
 simulator. The differences can be attributed to errors in hardware modeling and 
@@ -127,10 +147,17 @@ colors were small enough to fit in the thread level cache and result in good
 speedups. Proximate again gives the highest performance, which informs us to 
 design hardware exactly the way the simulator works to outperform Xeon Phi. 
 
+\subsection{Summary of Proximate Results}
 
-\begin{figure}
+This section shows the proximate speedup summary of both one regular
+and one irregular workload comparison to a baseline 1-core machine.
+We don't have all the workloads analyzed this way, mainly because of proximate
+queueing model not working for those workloads. Also, irregular workloads
+perform very poorly on Softbrain and that is the reason we dont run them on Softbrain.  
+
+\begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\linewidth]{cs758-figs/speedup-comparison.png}
+    \includegraphics[width=0.85\linewidth]{cs758-figs/speedup-comparison.png}
   \end{center}
 \vspace{-0.2in}
   \caption{Speedup comparison between multiple proximate configurations}
@@ -139,9 +166,9 @@ design hardware exactly the way the simulator works to outperform Xeon Phi.
 \end{figure}
 
 Figure~\ref{fig:speedup-comparison} shows summarizes how different programming 
-paradigms compare on different workloads to compare omp with the optimal number 
+paradigms compare on different workloads to compare OpenMP with the optimal number 
 of threads on Xeon Phi vs pthreads with optimal number of threads on Xeon Phi vs 
 proximate with the optimal number of threads versus a single softbrain instance. 
 Softbrain does not support irregular workloads such as histogram. In general, 
-proximate is about twice as fast as pthreads, and pthreads is about 20% faster 
-than omp. 
+proximate is about twice as fast as pthreads, and pthreads is about 20\% faster 
+than OpenMP. 

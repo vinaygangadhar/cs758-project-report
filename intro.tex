@@ -13,22 +13,8 @@ architects have in part turned to hardware specialization and
 accelerators, which sacrifice generality for efficiency in executing either
 specific computations or computations for certain application domains.
 
-Though accelerators hold great promise, with many new accelerator designs
-showing significant efficiency and performance gains, the research and 
-insights have been fragmented.  Newly proposed accelerators are evaluated 
-in their own toolchain, generally with a specific general purpose core, and with 
-a set of chosen benchmarks.  Solving this by integrating tens of accelerators 
-into a single simulation system and developing compatible compilers 
-for them is intractable due to development time.  This means that attaining 
-insights into accelerators which transcends specific simulators, core design
-points, evaluation metrics and applications is extremely difficult.
-This limitation hinders our ability to understand the future of acceleration 
-in terms of their behavior, design and use.
-%benefit, and how can we do it?
-
-
 The slowing of Moore’s law and Dennard scaling has also led a trend towards 
-domain specific accelerators (DSAs) for performance and energy consumptioni~\cite{1815968}. 
+domain specific accelerators (DSAs) for performance and energy consumption~\cite{1815968}. 
 DSAs are high performance computation engines for a specific domain. 
 In essence, DSAs trade obsoletion for performance and energy efficiency. 
 DSAs employ common specialization principles for concurrency, computation, 
@@ -38,24 +24,37 @@ but sacrifice programmability completely.
 general purpose programmability and be competitive 
 against DSAs by trading only up to 3.8x in area and 4.1x in power. 
 
+\paragraph{}This project tries to explore one such general purpose programmable
+accelerator architecture which tries to target different possible program regions.
+The idea behind a scalable, programmable and parallel execution hardware is that programmer
+can explicitly shard the data into multiple partitions and the computation can happen in parallel 
+across these partitions which enable orders of magnitude of performance. Figure~\ref{fig:abs}
+shows the ideal programmer needed abstraction to map the computation kernels to the partitioned data
+without any conflicts or explicit synchronization primitives. So, our goal in the project is to explore this
+parallel programming design space and see what are some lessons we can learn from this exercise w.r.t programming model
+and the parallel hardware itself.
 
-Figure~\ref{fig:proposed-work-overview} gives a high-level overview of each
-proposed work compared to the current approaches for each problem, 
-and they are outlined below.
 
-\subsection{Document Overview}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=0.65\linewidth, height=2in]{cs758-figs/abstraction.png}
+  \end{center}
+\vspace{-0.2in}
+  \caption{Data and Task Locality for Parallelization}
+  \label{fig:abs}
+\vspace{-0.4in}
+\end{figure}
 
-Section~\ref{sec:tdg} describes completed work in using the TDG to model various forms of
-acceleration, in terms of modeling and validation.  The next three sections
-describe the proposed work: Section~\ref{sec:limits} for studying the limits
-and opportunities, Section~\ref{sec:design} for using the TDG to aid the design
-of new accelerators and Section~\ref{sec:multi-acc} for enabling practical
-multi-acceleration.  Each section of proposed work contains a \emph{motivation}
-section, a \emph{research approach} section to explain how we address the problem,
-a \emph{preliminary results} section, a \emph{proposed work} section 
-which overviews the remaining work to be done, and ends with \emph{related work}.
-Section~\ref{sec:summary} summarizes the work, 
-Section~\ref{sec:deliverables} outlines deliverables,
-and Section~\ref{sec:timeline} describes the proposed dissertation schedule.
+
+\paragraph{Document Overview}
+
+Section~\ref{sec:prior} describes the prior work on which the project is based on, 
+and how it is resurfaced and remodeled for the project purposes.
+Section~\ref{sec:motiv} motivates the need of architectures like proximate and describes the
+insights and mechanisms of parallelization on proximate. 
+Section~\ref{sec:arch} explains the high level architecture and programming overview of proximate. 
+Section~\ref{sec:prog} details over the parallel programming model of proximate and its API calls. 
+Section~\ref{sec:meth} explains the methodology used for our project and Section~\ref{sec:eval} explains the results obtained and the corresponding analysis.
+We finally end with conclusion in Section~\ref{sec:conc} and future work needed. 
 
 

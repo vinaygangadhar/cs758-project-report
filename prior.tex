@@ -1,8 +1,8 @@
 \section{Prior Work and Project Proposal} \label{sec:prior}
 
 We build our project on the prior work done on LSSD~\cite{nowatzki2016pushing} (Work done in Vertical Research Group), which includes identification of specialization principles and proposal of the
-high-level architecture of the high througput compute engine (called Softbrain now). Softbrain builds 
-upon the LSSD principles and implements the general micro-architectural mechanisms indetified in prior work. 
+high-level architecture of the high throughput compute engine (called Softbrain now). Softbrain builds 
+upon the LSSD principles and implements the general micro-architectural mechanisms identified in prior work. 
 Before explaining the high level organization of Proximate architecture, the five
 specialization principles employed to consider this style of accelerator architecture are explained. 
 The primary insight 
@@ -41,14 +41,14 @@ expensive access to a larger global memory or register files.
 their timing to perform work. Instruction sequencing, control flow, interrupts handling and address generation
 are all examples of coordination tasks. Specializing it usually involves the creation of small finite state
 machines to perform each task. A low-power in-order core or a micro-controller could be used for this
-coordination specialization. Based on the this prinicple, to aim at high concurreny workloads and provide 
+coordination specialization. Based on the this principle, to aim at high concurrency workloads and provide 
 the task/data locality to 
 programmers, Proximate has lot of  such small in-order cores acting both 
-as coordination unit and computation engine to execute irrregular workloads. This is based heavily on the 
-principle of having many small in-order cores near memory to do the high-througput computation~\cite{menon2014memory}.
+as coordination unit and computation engine to execute irregular workloads. This is based heavily on the 
+principle of having many small in-order cores near memory to do the high-throughput computation~\cite{menon2014memory}.
 
 Based on extensions to all the prior work explained above,
-we currenlty have built a vector dataflow programmable accelerator 
+we currently have built a vector dataflow programmable accelerator 
 called Softbrain that is general purpose  
 programmable using a high level hardware 
 programming interface (HPI). 
@@ -57,7 +57,7 @@ single threaded showed comparable performance to the
 fixed function implementation of these workloads. 
 The current research also aims at having a general purpose 
 programmable tiled organization of 
-inorder cores which run single threaded fine-grained parallel tasks,
+in-order cores which run single threaded fine-grained parallel tasks,
 connected to the programmable accelerator (Softbrain) briefed above. 
 Together this entire hardware organization targets both 
 irregular and regular workloads, and we call 
@@ -78,7 +78,7 @@ overview of the current Proximate offload engine.
 \end{figure}
 
 Proximate has a 16 compute tiles, 
-each compute tile with 8 (RISC-V) inorder cores, 
+each compute tile with 8 (RISC-V) in-order cores, 
 a programmable/specialized accelerator (softbrain
 fabric) for a total of 128 RISC-V inorder cores and 
 16 softbrain fabric instances connected to a common 
@@ -88,28 +88,27 @@ copy the data to/from the host processor.
 
 
 \subsection{Project Proposed}
-Since, we excatly cannot have a hardware model setting as Figure~\ref{fig:prx-orig},
-for our project, we have to slighlty modify the API as well as the hardare model to suit our experiments.
+Since, we exactly cannot have the same hardware model setting as Figure~\ref{fig:prx-orig},
+for our project, we have to slightly modify the API as well as the hardware model to suit our experiments.
 Figure~\ref{fig:prx} shows the organization of the entire device for our
-project puposes. We assume both the host core and the proximate device
+project purposes. We assume both the host core and the proximate device
 to be located in the same shared address space and proximate operates
 in a memory mapped region of the shared address space. 
-The host core also runs the Prxoimate parallel programming API and the runtime
-is reposnisble for offloading the tasks at coarser-granulirty to a device-sepcific
+The host core also runs the Proximate parallel programming API and the runtime
+is responsible for offloading the tasks at coarser-granularity to a device-specific
 task scheduler. This task scheduler is connected to the proximate tiles, with each tile
-having group of in-order cores and the high-thrpougput compute engine, Softbrain. 
+having group of in-order cores and the high-throughput compute engine, Softbrain. 
 
-\begin{figure}
+
+\begin{figure*}[h]
   \begin{center}
     \includegraphics[width=\linewidth]{cs758-figs/proj.png}
   \end{center}
-\vspace{-0.9in}
+\vspace{-0.2in}
   \caption{Proximate Architecture in Our Project Setting}
   \label{fig:prx}
 \vspace{-0.05in}
-\end{figure}
-
-
+\end{figure*}
 
 This project aims to parallelize some of the 
 single-threaded regular HPC workloads and 
@@ -117,8 +116,11 @@ irregular workloads on Proximate architecture
 and evaluate performance and bandwidth 
 limitations compared to a server class chip 
 like 64-core Xeon Phi Knights landing.
-We also aim to take up some new single threaded irregular workloads (non parallelized graph
-analytics), parallelize it and see how it performs on Proximate as well as all the server class comparison points. 
+We start this by converting all the single-threaded workloads
+to the parallel versions of pthreads and OpenMP. Th idea behind this
+is to get the data from real hardware as well as see the scalability of these parallel workloads.
+We then implement the proximate versions of the parallel programs and evaluate the performance
+w.r.t to the best configuration of pthread run on Xeon-Phi. 
 
 
 

@@ -1,12 +1,19 @@
 \section{Conclusion and Future Work} \label{sec:conc}
-Proximate is a programmable accelerator that targets high 
-efficiency and programmability. Proximate is a compute engine 
-for both regular and irregular workloads.
-Proximate handles regular workloads with softbrain, 
-a reconfigurable computation fabric operating on 
-data streams recursively. Proximate handles irregular workloads with many CPU cores with data locality. 
+This project focused on exploring the parallel programming design space
+of Proximate, a multi-tile programmable hardware accelerator.
+The aim is to investigate the programming interface  of Proximate, the parallel
+hardware improvements and in general explore the parallel programs run on proximate.
+We have tried to explore a new type of the multi-tile programmable architecture,
+its scalability and speedup of such accelerator architecture 
+compared to a traditional server class multi-core processors for parallel programs.
+In summary, we explored different programming design points in the project and proximate is able to achieve speedups of
+50-100x over a traditional server class multi-core processor. 
 
-Proximate is programmable with a task-based programming API. 
+Proximate is a programmable accelerator that targets high 
+efficiency and programmability. It is a compute engine 
+for both regular and irregular workloads.
+
+Proximate exposes a flexible  programming model with a task-based programming API. 
 The programmer manages data sharding to achieve task and data locality for performance and scalability. 
 The simple queueing model supports more concurrency with locality 
 as each worker thread will only execute tasks in their own queue. 
@@ -14,6 +21,5 @@ Preliminary results shows that Proximate outperforms current
 multiprocessor programming paradigms by a factor of 10x for regular 
 workloads and a factor of 2x for irregular workloads. Although
 multi-threaded SoftBrain may cause new issues such as synchronization, 
-schedule, and saturated memory bandwidth, it could uncover new bounds of performance. We leave multithreaded SoftBrain to future works. 
-
+schedule, and saturate memory bandwidth, it could uncover new bounds of performance. We leave multi-threaded SoftBrain to future work. 
 
